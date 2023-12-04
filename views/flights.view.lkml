@@ -69,5 +69,9 @@ view: flights {
   }
   measure: count {
     type: count
+    drill_fields: [test_drill*]
+  }
+  set: test_drill {
+    fields: [distance,flight_time, flight_num,dep_raw]
   }
 }
