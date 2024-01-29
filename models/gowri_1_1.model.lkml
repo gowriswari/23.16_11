@@ -3,6 +3,7 @@ connection: "thelook"
 # include all the views
 include: "/views/**/*.view.lkml"
 include: "/locole_bug_repro.dashboard.lookml"
+include: "/sql_runner_query.view.lkml"
 
 datagroup: gowri_1_1_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -102,14 +103,20 @@ explore: inventory_items {
 }
 
 explore: orders {
+  required_access_grants:[test]
   join: users {
     type: left_outer
     sql_on: ${orders.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
 }
+access_grant: test {
+  user_attribute: explore_test
+  allowed_values: ["order_items","orders"]
+}
 
 explore: order_items {
+  required_access_grants: [test]
   join: orders {
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;
