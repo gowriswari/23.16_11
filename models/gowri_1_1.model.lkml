@@ -95,6 +95,7 @@ explore: incremental_pdts_test {}
 explore: ints {}
 
 explore: inventory_items {
+  required_access_grants: [test]
   join: products {
     type: left_outer
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
@@ -103,7 +104,7 @@ explore: inventory_items {
 }
 
 explore: orders {
-  required_access_grants:[test]
+  #required_access_grants:[test]
   join: users {
     type: left_outer
     sql_on: ${orders.user_id} = ${users.id} ;;
@@ -112,11 +113,10 @@ explore: orders {
 }
 access_grant: test {
   user_attribute: explore_test
-  allowed_values: ["order_items","orders"]
+  allowed_values: ["Products"]
 }
 
 explore: order_items {
-  required_access_grants: [test]
   join: orders {
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;
@@ -178,7 +178,9 @@ explore: persons {}
 
 explore: persons2 {}
 
-explore: products {}
+explore: products {
+  required_access_grants: [test]
+}
 
 explore: salary {
   join: dept {
