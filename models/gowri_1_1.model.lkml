@@ -113,10 +113,11 @@ explore: orders {
 }
 access_grant: test {
   user_attribute: explore_test
-  allowed_values: ["Products"]
+  allowed_values: ["products"]
 }
 
 explore: order_items {
+  required_access_grants: [test]
   join: orders {
     type: left_outer
     sql_on: ${order_items.order_id} = ${orders.id} ;;
@@ -136,6 +137,7 @@ explore: order_items {
   }
 
   join: products {
+    required_access_grants: [test]
     type: left_outer
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
     relationship: many_to_one
